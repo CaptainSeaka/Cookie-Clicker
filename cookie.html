@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color:#3cbad6;
+        }
+        #cookie {
+            width: 200px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            position: absolute;
+            top: 150px;
+            left:150px;
+
+        }
+        #cookie:active {
+            transform: scale(0.9);
+        }
+        #shop {
+            margin-top: 20px;
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .button:disabled {
+            background-color: #ccc;
+        }
+        #upgrades{
+            margin-top: 20px;
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        #cookiesCount{
+            position: absolute;
+            left: 220px;
+            
+        }
+        #cookie{
+            margin-top: 20px;
+            background: #283369;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="Title">Cookie Clicker</h1>
+    <p id="cookiesCount">Cookies: <span id="cookieCount">0</span></p>
+    <p>CPS: <span id="cookiesPS">0</span></p>
+    <div id="cbg">
+    <img id="cookie" src="Cookie_JE2_BE2.webp" alt="Cookie">
+        </div>
+    <div id="shop">
+        <h2>Building Shop</h2>
+        <p>Grandmas: <span id="grandmaCount">0</span> (each makes 1 cookie/sec)</p>
+        <button class="button" id="buyGrandma">Buy Grandma (Cost: <span id="grandmaCost">10</span>)</button>
+        
+        <p>Ovens: <span id="ovenCount">0</span> (each makes 5 cookies/sec)</p>
+        <button class="button" id="buyOven">Buy Oven (Cost: <span id="ovenCost">50</span>)</button>
+        
+        <p>Farm: <span id="farmCount">0</span> (each makes 20 cookies/sec)</p>
+        <button class="button" id="buyFarm">Buy Farm (Cost: <span id="farmCost">100</span>)</button>
+        
+        <p>Factories: <span id="factoryCount">0</span> (each makes 50 cookies/sec)</p>
+        <button class="button" id="buyFactory">Buy Factory (Cost: <span id="factoryCost">200</span>)</button>
+    </div>
+    <div id="upgrades">
+        <h2>Upgrades</h2>
+        
+    
+    
+    
+    
+    </div>
+    <script>
+        let cookies = 0;
+        let grandmas = 0, ovens = 0, farms = 0, factories = 0;
+        let grandmaCost = 15, ovenCost = 100, farmCost = 1100, factoryCost = 12000;
+        let cookiesPS = grandmas + (ovens * 5) + (farms * 20) + (factories * 50);
+        
+
+        document.getElementById("cookie").addEventListener("click", function() {
+            cookies++;
+            updateDisplay();
+        });
+
+        document.getElementById("buyGrandma").addEventListener("click", function() {
+            if (cookies >= grandmaCost) {
+                cookies -= grandmaCost;
+                grandmas++;
+                grandmaCost = Math.floor(grandmaCost * 1.2);
+                cookiesPS += 1;
+                updateDisplay();
+            }
+        });
+
+        document.getElementById("buyOven").addEventListener("click", function() {
+            if (cookies >= ovenCost) {
+                cookies -= ovenCost;
+                ovens++;
+                ovenCost = Math.floor(ovenCost * 1.3);
+                cookiesPS +=  5;
+                updateDisplay();
+            }
+        });
+        
+        document.getElementById("buyFarm").addEventListener("click", function() {
+            if (cookies >= farmCost) {
+                cookies -= farmCost;
+                farms++;
+                farmCost = Math.floor(farmCost * 1.4);
+                cookiesPS += 20;
+                updateDisplay();
+            }
+        });
+
+        document.getElementById("buyFactory").addEventListener("click", function() {
+            if (cookies >= factoryCost) {
+                cookies -= factoryCost;
+                factories++;
+                factoryCost = Math.floor(factoryCost * 1.6);
+                cookiesPS += 50;
+                updateDisplay();
+            }
+        });
+
+        function updateDisplay() {
+            document.getElementById("cookieCount").textContent = cookies;
+            document.getElementById("grandmaCount").textContent = grandmas;
+            document.getElementById("grandmaCost").textContent = grandmaCost;
+            document.getElementById("ovenCount").textContent = ovens;
+            document.getElementById("ovenCost").textContent = ovenCost;
+            document.getElementById("factoryCount").textContent = factories;
+            document.getElementById("factoryCost").textContent = factoryCost;
+            document.getElementById("buyGrandma").disabled = cookies < grandmaCost;
+            document.getElementById("buyOven").disabled = cookies < ovenCost;
+            document.getElementById("buyFactory").disabled = cookies < factoryCost;
+            document.getElementById("cookiesPS").textContent = cookiesPS;
+            document.getElementById("farmCount").textContent = farms;
+            document.getElementById("buyFarm").disabled = cookies < farmCost;
+            document.getElementById("farmCost").textContent = farmCost;
+        }
+
+        setInterval(() => {
+            cookies += grandmas + (ovens * 5) + (farms * 20) + (factories * 50);
+            updateDisplay();
+        }, 1000);
+        
+    </script>
+</body>
+</html>
